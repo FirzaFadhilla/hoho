@@ -33,14 +33,16 @@ h1{
 
 .heart{
   position:absolute;
-  font-size:30px;
+  font-size:40px; /* lebih besar */
   cursor:pointer;
-  animation: fall linear forwards;
+  animation:fall linear forwards;
+  user-select:none;
 }
 
-@keyframes fall{
-  from{transform:translateY(-50px);}
-  to{transform:translateY(100vh);}
+@media (max-width:768px){
+  .heart{
+    font-size:55px; /* lebih besar lagi di HP */
+  }
 }
 
 .proposal-btn{
@@ -93,26 +95,49 @@ const scoreDisplay = document.getElementById("score");
 const proposalBtn = document.getElementById("proposalBtn");
 
 function createHeart(){
-  const heart = document.createElement("div");
+  const heart=document.createElement("div");
   heart.className="heart";
-  heart.innerHTML="💖";
-  heart.style.left = Math.random()*90 + "vw";
-  heart.style.animationDuration = (Math.random()*3+3)+"s";
+  
+  const isSpecial=Math.random()<0.2;
 
-  heart.onclick = function(){
-    score++;
-    scoreDisplay.innerHTML="Skor: "+score+" / "+target;
+  if(isSpecial){
+    heart.innerHTML="🌟";
+  }else{
+    heart.innerHTML="💖";
+  }
+
+  heart.style.left=Math.random()*80+"vw";
+  
+  // Lebih pelan di HP
+  const isMobile = window.innerWidth < 768;
+  heart.style.animationDuration = isMobile ? "6s" : "4s";
+
+  heart.addEventListener("click", handleClick);
+  heart.addEventListener("touchstart", handleClick);
+
+  function handleClick(){
+    if(navigator.vibrate){
+      navigator.vibrate(50);
+    }
+
+    heart.style.pointerEvents="none";
     heart.classList.add("pop");
     setTimeout(()=>heart.remove(),200);
 
-    if(score >= target){
-      unlockProposal();
+    if(isSpecial){
+      showBoomPhoto();
+    }else{
+      score++;
+      scoreDisplay.innerHTML="Skor: "+score+" / "+target;
+    }
+
+    if(score>=target){
+      proposalBtn.style.display="inline-block";
     }
   }
 
   game.appendChild(heart);
-
-  setTimeout(()=>heart.remove(),6000);
+  setTimeout(()=>heart.remove(),7000);
 }
 
 function unlockProposal(){
@@ -131,3 +156,4 @@ setInterval(createHeart,800);
 </body>
 
 </html>
+
