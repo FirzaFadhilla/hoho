@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Game 💖</title>
+<title>Game Hati💖</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
 body{
@@ -33,16 +33,14 @@ h1{
 
 .heart{
   position:absolute;
-  font-size:40px; /* lebih besar */
+  font-size:30px;
   cursor:pointer;
-  animation:fall linear forwards;
-  user-select:none;
+  animation: fall linear forwards;
 }
 
-@media (max-width:768px){
-  .heart{
-    font-size:55px; /* lebih besar lagi di HP */
-  }
+@keyframes fall{
+  from{transform:translateY(-50px);}
+  to{transform:translateY(100vh);}
 }
 
 .proposal-btn{
@@ -95,49 +93,26 @@ const scoreDisplay = document.getElementById("score");
 const proposalBtn = document.getElementById("proposalBtn");
 
 function createHeart(){
-  const heart=document.createElement("div");
+  const heart = document.createElement("div");
   heart.className="heart";
-  
-  const isSpecial=Math.random()<0.2;
+  heart.innerHTML="💖";
+  heart.style.left = Math.random()*90 + "vw";
+  heart.style.animationDuration = (Math.random()*3+3)+"s";
 
-  if(isSpecial){
-    heart.innerHTML="🌟";
-  }else{
-    heart.innerHTML="💖";
-  }
-
-  heart.style.left=Math.random()*80+"vw";
-  
-  // Lebih pelan di HP
-  const isMobile = window.innerWidth < 768;
-  heart.style.animationDuration = isMobile ? "6s" : "4s";
-
-  heart.addEventListener("click", handleClick);
-  heart.addEventListener("touchstart", handleClick);
-
-  function handleClick(){
-    if(navigator.vibrate){
-      navigator.vibrate(50);
-    }
-
-    heart.style.pointerEvents="none";
+  heart.onclick = function(){
+    score++;
+    scoreDisplay.innerHTML="Skor: "+score+" / "+target;
     heart.classList.add("pop");
     setTimeout(()=>heart.remove(),200);
 
-    if(isSpecial){
-      showBoomPhoto();
-    }else{
-      score++;
-      scoreDisplay.innerHTML="Skor: "+score+" / "+target;
-    }
-
-    if(score>=target){
-      proposalBtn.style.display="inline-block";
+    if(score >= target){
+      unlockProposal();
     }
   }
 
   game.appendChild(heart);
-  setTimeout(()=>heart.remove(),7000);
+
+  setTimeout(()=>heart.remove(),6000);
 }
 
 function unlockProposal(){
@@ -154,6 +129,4 @@ setInterval(createHeart,800);
 </script>
 
 </body>
-
 </html>
-
