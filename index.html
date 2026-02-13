@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Mini Game Tangkap Hati 💖</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif;}
+body{
+  height:100vh;
+  overflow:hidden;
+  background:linear-gradient(to bottom,#ff9a9e,#fad0c4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+h1{
+  margin-bottom:10px;
+}
+
+#score{
+  font-size:20px;
+  margin-bottom:10px;
+}
+
+.game-area{
+  position:relative;
+  width:100%;
+  height:80vh;
+  overflow:hidden;
+}
+
+.heart{
+  position:absolute;
+  font-size:30px;
+  cursor:pointer;
+  animation: fall linear forwards;
+}
+
+@keyframes fall{
+  from{transform:translateY(-50px);}
+  to{transform:translateY(100vh);}
+}
+
+.proposal-btn{
+  display:none;
+  margin-top:15px;
+  padding:15px 35px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:#ff2e63;
+  color:white;
+  cursor:pointer;
+  box-shadow:0 0 15px pink;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+.pop{
+  animation:pop .2s forwards;
+}
+
+@keyframes pop{
+  to{transform:scale(1.5);opacity:0;}
+}
+
+</style>
+</head>
+<body>
+
+<h1>💖 Tangkap 10 Hati Untuk Unlock Proposal 💖</h1>
+<div id="score">Skor: 0 / 10</div>
+
+<div class="game-area" id="game"></div>
+
+<button class="proposal-btn" id="proposalBtn" onclick="goProposal()">
+  💍 Buka Proposal 💍
+</button>
+
+<script>
+
+let score = 0;
+const target = 10;
+const game = document.getElementById("game");
+const scoreDisplay = document.getElementById("score");
+const proposalBtn = document.getElementById("proposalBtn");
+
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.className="heart";
+  heart.innerHTML="💖";
+  heart.style.left = Math.random()*90 + "vw";
+  heart.style.animationDuration = (Math.random()*3+3)+"s";
+
+  heart.onclick = function(){
+    score++;
+    scoreDisplay.innerHTML="Skor: "+score+" / "+target;
+    heart.classList.add("pop");
+    setTimeout(()=>heart.remove(),200);
+
+    if(score >= target){
+      unlockProposal();
+    }
+  }
+
+  game.appendChild(heart);
+
+  setTimeout(()=>heart.remove(),6000);
+}
+
+function unlockProposal(){
+  proposalBtn.style.display="inline-block";
+}
+
+function goProposal(){
+  alert("💖 Kamu berhasil! Siap untuk pertanyaan penting 💍");
+  window.location.href="proposal.html";
+}
+
+setInterval(createHeart,800);
+
+</script>
+
+</body>
+</html>

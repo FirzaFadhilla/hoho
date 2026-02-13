@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>UNTUK PACARKUUU 💍</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg lebay">
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="flowers mega">
+  <span>🌸</span><span>🌹</span><span>🌸</span><span>🌷</span>
+  <span>🌸</span><span>🌹</span><span>🌸</span><span>🌷</span>
+  <span>💖</span><span>💘</span><span>💗</span><span>💞</span>
+</div>
+
+<div class="card lebay-card">
+  <h1 class="heartbeat big">💖 APAKAH KAMU SAYANG, CINTA AKUUU????? 💖</h1>
+
+  <p class="dramatic">
+    Dari sekian milyar manusia di dunia 🌍  
+    entah kenapa hatiku berhenti di kamu 💓  
+    Jadi… aku mau tanya dengan penuh cinta 😳
+  </p>
+
+  <div class="btn-group">
+    <button class="yes mega-yes" onclick="YES()">YES 💍💖</button>
+    <button class="no mega-no" id="noBtn">NO 🙈</button>
+  </div>
+
+  <div id="finalText" class="final hidden"></div>
+</div>
+
+<script>
+let noCount = 0;
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+  noCount++;
+  const x = Math.random() * 300 - 150;
+  const y = Math.random() * 300 - 150;
+  noBtn.style.transform = `translate(${x}px, ${y}px) scale(${1 - noCount * 0.1})`;
+
+  if (noCount >= 4) {
+    noBtn.innerText = "GAK BISA 😭";
+  }
+  if (noCount >= 6) {
+    noBtn.style.display = "none";
+  }
+});
+
+function YES() {
+  document.body.classList.add("shake");
+
+  if (navigator.vibrate) {
+    navigator.vibrate([200, 100, 200, 100, 400]);
+  }
+
+  const text = document.getElementById("finalText");
+  text.innerHTML = `
+    🎉💖 YEEEEESSSSS 💖🎉<br><br>
+    Aku bahagia BANGET 😭💍<br>
+    I LOVE UUUUU SAYANGKUHHHHH CINTAKUHHHHHHH 🍰<br><br>
+    Aku janji bakal jaga perasaan kamu 🌷<br>
+    dan terus jatuh cinta setiap hari 💕
+  `;
+  text.classList.remove("hidden");
+  text.classList.add("show");
+
+  launchHearts();
+  launchConfetti();
+}
+
+function launchHearts() {
+  for (let i = 0; i < 40; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart-burst";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+}
+
+function launchConfetti() {
+  for (let i = 0; i < 50; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = (Math.random() * 2 + 2) + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+</script>
+<button id="musicBtn" class="music-btn" onclick="playMusic()">
+  🎵 Play Music
+</button>
+<script>
+function playMusic() {
+  const music = document.getElementById("bgMusic");
+  music.play();
+
+  document.getElementById("musicBtn").innerText = "💖 Music Playing";
+}
+</script>
+</body>
+</html>
